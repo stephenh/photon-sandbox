@@ -18,11 +18,13 @@ const { blog } = grpc.loadPackageDefinition(packageDefinition) as any
 
 async function post(call: any, callback: any) {
   const { id } = call.request
-  const post = await photon.posts.findOne({
+  const postP = photon.posts.findOne({
     where: {
       id,
     },
-  })
+  });
+  const post = await postP;
+  const author = await postP.author();
   callback(null, post)
 }
 
